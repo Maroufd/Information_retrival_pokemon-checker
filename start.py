@@ -42,7 +42,11 @@ def zernike_moment():
 	cv2.imshow("outline", outline)
 	cv2.waitKey(0)
 	return 0
-def compute_distance():
+def compute_distance(methodName,index):
+	if methodName=="Euclidean":
+		dist.euclidean
+	elif methodName=="Chi-Squared":
+		method=cv2.HISTCMP_BHATTACHARYYA
 	# METHOD #2: UTILIZING SCIPY
 	# initialize the scipy methods to compaute distances
 	SCIPY_METHODS = (
@@ -80,32 +84,19 @@ def compute_distance():
 	plt.savefig('foo3.png')
 	return 0
 
-def histogram_comp():
-	OPENCV_METHODS = (
-		("Correlation", cv2.HISTCMP_CORREL),
-		("Chi-Squared", cv2.HISTCMP_CHISQR),
-		("Intersection", cv2.HISTCMP_INTERSECT),
-		("Hellinger", cv2.HISTCMP_BHATTACHARYYA))
-	# loop over the comparison methods
-	for (methodName, method) in OPENCV_METHODS:
-		# initialize the results dictionary and the sort
-		# direction
-		results = {}
-		reverse = False
-		# if we are using the correlation or intersection
-		# method, then sort the results in reverse order
-		if methodName in ("Correlation", "Intersection"):
-			reverse = True
-	# loop over the index
+def histogram_comp(methodName,index,selected,images):
+	results = {}
+	if methodName=="Chi-Squared":
+		method=cv2.HISTCMP_CHISQR
+	elif methodName=="":
+		method=cv2.HISTCMP_BHATTACHARYYA
 	for (k, hist) in index.items():
 		# compute the distance between the two histograms
 		# using the method and update the results dictionary
 		d = cv2.compareHist(index[selected], hist, method)
 		results[k] = d
 	# sort the results
-	results = sorted([(v, k) for (k, v) in results.items()], reverse = reverse)[:4]
-
-
+	results = sorted([(v, k) for (k, v) in results.items()], reverse = False)[:4]
 	# show the query image
 	fig = plt.figure("Query")
 	ax = fig.add_subplot(1, 1, 1)
@@ -122,7 +113,7 @@ def histogram_comp():
 		plt.imshow(images[k])
 		plt.axis("off")
 	# show the OpenCV methods
-	plt.savefig('foo2.png')
+	plt.savefig(methodName+'.png')
 	return 0
 
 
@@ -162,7 +153,7 @@ def plot_histogramgrey(image, title, mask=None):
 	plt.savefig('grey.png')
 	return 0
 # construct the argument parser and parse the arguments
-def all(selected,distance_method):
+def all(selected,histogram_method,distance_method):
 	plot=cv2.imread("/home/pokemonchecker/api/images/"+selected,cv2.IMREAD_UNCHANGED)
 	plot_histogram(plot,"Color Histogram")
 	plot_histogramgrey(plot,"Grey Histogram")
@@ -172,21 +163,27 @@ def all(selected,distance_method):
 	index = {}
 	images = {}
 	# loop over the image paths
-	for imagePath in glob.glob("/home/pokemonchecker/api/images/*.png"):
-		# extract the image filename (assumed to be unique) and
-		# load the image, updating the images dictionary
-		filename = imagePath[imagePath.rfind("/") + 1:]
-		image = cv2.imread(imagePath)
-		images[filename] = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+	if histogram_method=='color':
+		for imagePath in glob.glob("/home/pokemonchecker/api/images/*.png"):
+			filename = imagePath[imagePath.rfind("/") + 1:]
+			image = cv2.imread(imagePath)
+			images[filename] = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+			hist = cv2.calcHist([image], [0, 1, 2], None, [8, 8, 8],
+				[0, 256, 0, 256, 0, 256])
+			hist = cv2.normalize(hist, hist).flatten()
+			index[filename] = hist
+	elif histogram_method=='grey':
+		for imagePath in glob.glob("/home/pokemonchecker/api/images/*.png"):
+			filename = imagePath[imagePath.rfind("/") + 1:]
+			image = cv2.imread(imagePath)
+			images[filename] = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+			alpha = image[:,:,3] # Channel 3
+			result = np.dstack([gray, alpha]) # Add the alpha channel
+			hist = cv2.calcHist([result], [0], None, [256], [0, 256])
+			hist = cv2.normalize(hist, hist).flatten()
+			index[filename] = hist
 
-		# extract a 3D RGB color histogram from the image,
-		# using 8 bins per channel, normalize, and update
-		# the index
-		hist = cv2.calcHist([image], [0, 1, 2], None, [8, 8, 8],
-			[0, 256, 0, 256, 0, 256])
-		hist = cv2.normalize(hist, hist).flatten()
-		index[filename] = hist
-
+	histogram_comp(methodName,index,selected,images)
 
 	# initialize the results dictionary
 	results = {}
