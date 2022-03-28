@@ -14,5 +14,9 @@ def hello():
 @app.route("/test" , methods=['GET', 'POST'])
 def test():
     select = request.form.get('comp_select')
-    start.all(select+".png")
-    return send_file("/home/pokemonchecker/api/foo2.png", mimetype='image/png') # just to see what select is
+    start.all(select+".png",'color','Hellinger','Manhattan')
+    files=glob.glob("/home/pokemonchecker/public_html/pokemonapi/*.png")
+    links=[]
+    for file in files:
+        links.append("https://pokemonchecker.site/pokemonapi/"+file.split("/")[-1])
+    return render_template('allres.html', links=links) # just to see what select is
