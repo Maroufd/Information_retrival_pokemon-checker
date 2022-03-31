@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Pokemon Checker</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {font-family: "Lato", sans-serif}
+.mySlides {display: none}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+
+<!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+
+
+<!-- Page content -->
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+  <div class="w3-black" id="tour">
+    <div class="w3-container w3-content w3-padding-64" style="max-width:800px">
+      <h3>Your selected pokemon is: {{ selected }}</h3>
+      <img src="{{urlfor}}"/>
+      <h4>Metadata of image</h4>
+      <p>Filename: <b>{{ data3[0] }}</b></p>
+      <p>Image Size: <b>{{ data3[1] }}</b></p>
+      <p>Image Height: <b>{{ data3[2] }}</b></p>
+      <p>Image Width: <b>{{ data3[3] }}</b></p>
+      <p>Image Format: <b>{{ data3[4] }}</b></p>
+      <p>Image Mode: <b>{{ data3[5] }}</b></p>
+      <p>Image is Animated: <b>{{ data3[6] }}</b></p>
+      <p>Frames in Image: <b>{{ data3[7] }}</b></p>
+
+     </div>
+  </div>
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+    <h3>More information about the pokemon</h3>
+    <p>Name: <b>{{ data[0] }}</b></p>
+    <p>Type1: <b>{{ data[1] }}</b></p>
+    <p>Type2: <b>{{ data[2] }}</b></p>
+    <p>Abilites: <b>{{ data[3] }}</b></p>
+    <p>Against bug: <b>{{ data[4] }}</b></p>
+    <p>Against Dark: <b>{{ data[5] }}</b></p>
+    <p>Against Dragon: <b>{{ data[6] }}</b></p>
+    <p>Against Electric: <b>{{ data[7] }}</b></p>
+    <p>Against Fairy: <b>{{ data[8] }}</b></p>
+    <p>Against Fight: <b>{{ data[9] }}</b></p>
+    <p>Against Fire: <b>{{ data[10] }}</b></p>
+    <p>Against Flying: <b>{{ data[11] }}</b></p>
+    <p>Against Ghost: <b>{{ data[12] }}</b></p>
+    <p>Against Grass: <b>{{ data[13] }}</b></p>
+    <p>Against Ground: <b>{{ data[14] }}</b></p>
+    <p>Against Ice: <b>{{ data[15] }}</b></p>
+    <p>Against Normal: <b>{{ data[16] }}</b></p>
+    <p>Against Poison: <b>{{ data[17] }}</b></p>
+    <p>Against Psychic: <b>{{ data[18] }}</b></p>
+    <p>Against Rock: <b>{{ data[19] }}</b></p>
+    <p>Against still: <b>{{ data[20] }}</b></p>
+    <p>Against Water: <b>{{ data[21] }}</b></p>
+    <p>Attack: <b>{{ data[22] }}</b></p>
+    <p>Base Egg Steps: <b>{{ data[23] }}</b></p>
+    <p>Base Happiness: <b>{{ data[24] }}</b></p>
+    <p>Base Total: <b>{{ data[25] }}</b></p>
+    <p>Capture Rate: <b>{{ data[26] }}</b></p>
+    <p>Classfication: <b>{{ data[27] }}</b></p>
+    <p>Defense: <b>{{ data[28] }}</b></p>
+    <p>Experiencs Growth: <b>{{ data[29] }}</b></p>
+</div>
+  <!-- Automatic Slideshow Images -->
+
+  <!-- The Band Section -->
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="band">
+    <h1 class="w3-wide">Deatails,histograms and plots for resulting the best matches</h1>
+    <h2 class="w3-wide">Shape descriptor for the four most similar pokemon</h2>
+    <h3>1. {{ out1s }} : {{ out1 }}</h3>
+    <h3>2. {{ out2s }} : {{ out2 }}</h3>
+    <h3>3. {{ out3s }} : {{ out3 }}</h3>
+    <h3>4. {{ out4s }} : {{ out4 }}</h3>
+    <h2 class="w3-wide">Color and grey histograms, and distancse for the four most similar pokemon</h2>
+    {% for url in links %}
+    <img src="{{ url }}"/>
+    {% endfor %}
+  </div>
+
+  <!-- The Tour Section -->
+
+
+  <!-- Ticket Modal -->
+
+<!-- End Page Content -->
+</div>
+
+
+
+
+</body>
+
+</html>
