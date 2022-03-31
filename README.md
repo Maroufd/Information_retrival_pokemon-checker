@@ -12,4 +12,5 @@
     - numpy as np
 - 2) Start the Jupyter Notebook from the same folder as readme and the notebook itself. 
 - 3) Images include the unprocessed images (~database), the preprocessed_image & indexes folder will be filled during runtime
+     #### Important: delete the .keepgit from preprocessed_image & indexes (Trick used to push empty folders into git)
 - 4) For a real use-case scenario, visit our website: https://pokemonchecker.site/ (includes use-case with both proposed datasets)
